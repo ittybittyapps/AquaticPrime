@@ -28,10 +28,6 @@
 
 #include <Security/Security.h>
 
-#define APFree(x) do { if ((x)) { free((x)); (x) = NULL; } } while (0)
-#define APRelease(x) do { if ((x)) { CFRelease((x)); (x) = NULL; } } while(0)
-#define APArrayLength(x) (sizeof((x))/sizeof((x)[0]))
-
 static SecKeyRef g_apPublicKey;
 static CFMutableArrayRef g_blacklist;
 
@@ -87,7 +83,7 @@ static CFDataRef APDataCreateFromHexDigitString(CFStringRef hexDigitString)
     return data;
 }
 
-static CFStringRef APCreateHexDigitStringFromData(CFDataRef data)
+CFStringRef APCreateHexDigitStringFromData(CFDataRef data)
 {
     UInt8 const *dataBytes = CFDataGetBytePtr(data);
     CFIndex dataLength = CFDataGetLength(data);
@@ -260,12 +256,12 @@ void APBlacklistAdd(CFStringRef blacklistEntry)
     CFArrayAppendValue(g_blacklist, blacklistEntry);
 }
 
-static CFComparisonResult APCompareStrings(const void *val1, const void *val2, __unused void *context)
+CFComparisonResult APCompareStrings(const void *val1, const void *val2, __unused void *context)
 {
     return CFStringCompare(val1, val2, 0);
 }
 
-static CFDataRef APCreateHashForDictionary(CFDictionaryRef dict)
+CFDataRef APCreateHashForDictionary(CFDictionaryRef dict)
 {
     CFDataRef hash = NULL;
 

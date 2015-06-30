@@ -40,4 +40,13 @@ CF_EXPORT Boolean APVerifyLicenseFile(CFURLRef path);
 CF_EXPORT void APBlacklistAdd(CFStringRef blacklistEntry);
 CF_EXPORT void APSetBlacklist(CFArrayRef hashArray);
 
+// Exposed for use in Reveal
+#define APFree(x) do { if ((x)) { free((x)); (x) = NULL; } } while (0)
+#define APRelease(x) do { if ((x)) { CFRelease((x)); (x) = NULL; } } while(0)
+#define APArrayLength(x) (sizeof((x))/sizeof((x)[0]))
+
+CF_EXPORT CFComparisonResult APCompareStrings(const void *val1, const void *val2, __unused void *context);
+CF_EXPORT CFStringRef APCreateHexDigitStringFromData(CFDataRef data);
+CF_EXPORT CFDataRef APCreateHashForDictionary(CFDictionaryRef dict);
+
 CF_EXTERN_C_END
